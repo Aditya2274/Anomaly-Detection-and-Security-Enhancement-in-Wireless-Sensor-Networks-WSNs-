@@ -31,8 +31,12 @@ def run_cyberattack_experiments():
     
     if not os.path.exists(data_path):
         print("Simulated dataset not found. Generating now...")
-        from simulate_wsn_attacks import generate_wsn_attack_dataset
-        df = generate_wsn_attack_dataset(n_samples=80_000, random_seed=42)
+        import importlib.util
+        sim_path = os.path.join(os.path.dirname(__file__), '01_simulate_wsn_traffic.py')
+        spec = importlib.util.spec_from_file_location("sim_module", sim_path)
+        sim_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(sim_module)
+        df = sim_module.generate_wsn_attack_dataset(n_samples=80_000, random_seed=42)
         df.to_csv(data_path, index=False)
     else:
         df = pd.read_csv(data_path)

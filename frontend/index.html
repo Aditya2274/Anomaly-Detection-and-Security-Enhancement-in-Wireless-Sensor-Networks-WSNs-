@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TERF · Trust-Enhanced Intrusion & Anomaly Detector — Live Console</title>
+<title>TERF · Trust-Enhanced Intrusion Detection System for WSNs</title>
 <style>
   :root{
     --bg:#0c1220; --panel:#141d33; --panel2:#1c2747; --line:#2a3a5c;
@@ -12,18 +12,13 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;padding:20px}
-  h1{font-size:20px;letter-spacing:.3px}
+  h1{font-size:21px;letter-spacing:.3px}
   h1 span{color:var(--accent)}
-  .sub{color:var(--dim);font-size:12px;margin-top:3px}
+  .sub{color:var(--dim);font-size:12.5px;margin-top:4px}
   .top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
-  .top-left{display:flex;align-items:center;gap:16px}
-  .top-tabs{display:flex;gap:8px}
-  .tab-btn{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:6px 16px;font-size:12.5px;color:var(--dim);cursor:pointer;transition:.15s}
-  .tab-btn:hover{border-color:var(--accent);color:var(--txt)}
-  .tab-btn.active{background:rgba(124,139,255,.15);border-color:var(--accent);color:#fff;font-weight:600}
-  .badge{cursor:pointer;border:1px solid var(--line);border-radius:20px;padding:6px 15px;font-size:12.5px;color:var(--dim);user-select:none;transition:.15s}
+  .badge{cursor:pointer;border:1px solid var(--line);border-radius:20px;padding:6px 16px;font-size:12.5px;color:var(--dim);user-select:none;transition:.15s}
   .badge:hover{border-color:var(--accent)}
-  .badge.on{color:var(--good);border-color:var(--good);background:rgba(47,208,140,.07)}
+  .badge.on{color:var(--good);border-color:var(--good);background:rgba(47,208,140,.08)}
   .grid{display:grid;gap:16px}
   .g-arch{grid-template-columns:1fr 1fr}
   .g-main{grid-template-columns:2fr 1fr;margin-top:16px}
@@ -32,25 +27,23 @@
   .panel h2{font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:.6px;margin-bottom:14px;font-weight:600}
   .charts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .chart{position:relative;height:140px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;overflow:hidden}
-  .chart .lab{position:absolute;top:6px;left:10px;font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;z-index:2;font-weight:600}
+  .chart .lab{position:absolute;top:7px;left:10px;font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;z-index:2;font-weight:600}
   canvas{display:block;width:100%;height:100%}
   .controls{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
-  button{background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:500;transition:.15s}
+  button{background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;transition:.15s}
   button:hover{border-color:var(--accent);transform:translateY(-1px)}
-  button.on{background:var(--warn);border-color:var(--warn);color:#231a00;font-weight:700}
-  button.on-danger{background:var(--alert);border-color:var(--alert);color:#fff;font-weight:700}
-  button.on-good{background:var(--good);border-color:var(--good);color:#0a2012;font-weight:700}
+  button.on-danger{background:var(--alert);border-color:var(--alert);color:#fff}
+  button.on-good{background:var(--good);border-color:var(--good);color:#0a2012}
   .slider{display:flex;align-items:center;gap:10px;margin-top:8px}
   .slider input{flex:1;accent-color:var(--accent)}
-  .slider span{font-size:12px;color:var(--dim);min-width:44px}
-  .state{font-size:38px;font-weight:800;text-align:center;margin:6px 0 14px;letter-spacing:.8px}
+  .slider span{font-size:12px;color:var(--dim);min-width:54px}
+  .state{font-size:40px;font-weight:800;text-align:center;margin:6px 0 14px;letter-spacing:.8px}
   .node{display:flex;align-items:center;gap:12px;padding:10px 13px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);margin-bottom:8px}
-  .node .n{width:110px;font-size:11.5px;font-weight:600;color:var(--dim)}
+  .node .n{width:115px;font-size:11.5px;font-weight:600;color:var(--dim)}
   .node .v{flex:1;font-family:monospace;font-size:13px}
-  .pill{font-size:10px;padding:3px 9px;border-radius:12px;border:1px solid var(--line);color:var(--dim)}
-  .pill.on{border-color:var(--warn);color:var(--warn);background:rgba(255,181,69,.08)}
-  .pill.on-alert{border-color:var(--alert);color:var(--alert);background:rgba(255,93,104,.1)}
-  .pill.on-good{border-color:var(--good);color:var(--good);background:rgba(47,208,140,.1)}
+  .pill{font-size:10.5px;padding:3px 9px;border-radius:12px;border:1px solid var(--line);color:var(--dim)}
+  .pill.on-alert{border-color:var(--alert);color:var(--alert);background:rgba(255,93,104,.12)}
+  .pill.on-good{border-color:var(--good);color:var(--good);background:rgba(47,208,140,.12)}
   .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
   .metric{display:flex;flex-direction:column;align-items:center;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--panel2)}
   .metric b{font-size:22px;font-weight:700;color:var(--accent)}
@@ -69,30 +62,24 @@
 <body>
 
 <div class="top">
-  <div class="top-left">
-    <div>
-      <h1>TERF <span>·</span> Trust-Enhanced Intrusion & Anomaly Detector</h1>
-      <div class="sub" id="headerSub">Simulated WSN Environment · Random Forest with Dynamic Trust Evaluation</div>
-    </div>
-    <div class="top-tabs">
-      <button class="tab-btn active" id="tabCyber" onclick="switchMode('cyber')">🛡️ Cyberattack Mode (TERF)</button>
-      <button class="tab-btn" id="tabSensor" onclick="switchMode('sensor')">📡 Sensor-Health Mode (AE)</button>
-    </div>
+  <div>
+    <h1>TERF <span>·</span> Trust-Enhanced Intrusion Detection System</h1>
+    <div class="sub">Wireless Sensor Network Intrusion Detection · WSN-DS Benchmark · Multi-factor Trust Evaluation</div>
   </div>
   <div class="badge on" id="streamBadge" onclick="toggleStream()">▶ Running</div>
 </div>
 
 <div class="grid g-arch">
   <div class="panel">
-    <h2 id="leftPanelTitle">① WSN Network Packet & Behavior Stream</h2>
+    <h2>① WSN Network Packet & Behavior Stream</h2>
     <div class="charts">
-      <div class="chart"><span class="lab" id="lab0" style="color:#6bbaff">Forwarded Packets</span><canvas id="cv0"></canvas></div>
-      <div class="chart"><span class="lab" id="lab1" style="color:#ff5d68">Dropped Packets</span><canvas id="cv1"></canvas></div>
-      <div class="chart"><span class="lab" id="lab2" style="color:#f6d76b">Control Broadcasts</span><canvas id="cv2"></canvas></div>
-      <div class="chart"><span class="lab" id="lab3" style="color:#2fd08c">Composite Trust</span><canvas id="cv3"></canvas></div>
+      <div class="chart"><span class="lab" style="color:#6bbaff">Forwarded Packets (DATA_F)</span><canvas id="cv0"></canvas></div>
+      <div class="chart"><span class="lab" style="color:#ff5d68">Dropped Packets (DATA_D)</span><canvas id="cv1"></canvas></div>
+      <div class="chart"><span class="lab" style="color:#f6d76b">Control Broadcasts (ADV+JOIN+SCH)</span><canvas id="cv2"></canvas></div>
+      <div class="chart"><span class="lab" style="color:#2fd08c">Composite Trust Score</span><canvas id="cv3"></canvas></div>
     </div>
     <div class="controls" id="simControl"></div>
-    <div class="slider" id="sliderBox">
+    <div class="slider">
       <span style="font-size:12px;color:var(--dim)">Attack Severity</span>
       <input type="range" id="mag" min="1" max="10" value="5">
       <span id="magVal">Level 5</span>
@@ -100,22 +87,22 @@
   </div>
 
   <div class="panel">
-    <h2 id="rightPanelTitle">② Model Inference & Decision Layer</h2>
+    <h2>② TERF Model Inference & Active Defense Layer</h2>
     <div class="state" id="stateLabel" style="color:var(--good)">NORMAL</div>
     
     <div class="node">
-      <span class="n" id="node1Name">Classifier</span>
-      <span class="v" id="node1Val">TERF Predict: <b id="predClass">NORMAL</b> <span class="pill on-good" id="predPill">99.6% Conf</span></span>
+      <span class="n">Classifier</span>
+      <span class="v">TERF Predict: <b id="predClass" style="color:var(--good)">NORMAL</b> <span class="pill on-good" id="predPill">99.8% Conf</span></span>
     </div>
     <div class="node">
-      <span class="n" id="node2Name">Direct Trust</span>
+      <span class="n">Direct Trust</span>
       <span class="v">
         <span class="trust-bar"><span class="trust-fill" id="dtFill" style="width:95%"></span></span>
         <span id="dtVal">0.95</span> <span class="pill" id="dtPill">Reliable Forwarder</span>
       </span>
     </div>
     <div class="node">
-      <span class="n" id="node3Name">Control Trust</span>
+      <span class="n">Control Trust</span>
       <span class="v">
         <span class="trust-bar"><span class="trust-fill" id="ctFill" style="width:92%"></span></span>
         <span id="ctVal">0.92</span> <span class="pill" id="ctPill">Normal Quota</span>
@@ -123,14 +110,14 @@
     </div>
     <div class="node">
       <span class="n">Action Layer</span>
-      <span class="v" id="actionVal">Defense Policy: <b id="actionStatus" style="color:var(--good)">Node Authorized</b></span>
+      <span class="v">Defense Action: <b id="actionStatus" style="color:var(--good)">NODE AUTHORIZED</b></span>
     </div>
 
     <div class="metrics">
-      <div class="metric"><b id="metric1">99.6%</b><small id="sub1">Accuracy</small></div>
-      <div class="metric"><b id="metric2">99.5%</b><small id="sub2">Macro F1</small></div>
-      <div class="metric"><b id="metric3">0.47%</b><small id="sub3">Normal FPR</small></div>
-      <div class="metric"><b id="metric4" style="color:var(--good)">0</b><small id="sub4">Nodes Isolated</small></div>
+      <div class="metric"><b id="metric1">99.62%</b><small>Accuracy</small></div>
+      <div class="metric"><b id="metric2">99.48%</b><small>Macro F1</small></div>
+      <div class="metric"><b id="metric3">0.47%</b><small>Normal FPR</small></div>
+      <div class="metric"><b id="metric4" style="color:var(--good)">0</b><small>Nodes Isolated</small></div>
     </div>
 
     <div id="log"></div>
@@ -139,8 +126,8 @@
 
 <div class="grid g-main">
   <div class="panel">
-    <h2>③ Benchmark Comparison: Standard RF vs. Trust-Enhanced Random Forest (TERF)</h2>
-    <table id="perfTable">
+    <h2>③ Benchmark Comparison: Standard Classifiers vs. TERF</h2>
+    <table>
       <thead>
         <tr>
           <th>Model / Attack Class</th>
@@ -156,21 +143,20 @@
   </div>
 
   <div class="panel">
-    <h2>④ Defense & Trust Security Policy</h2>
+    <h2>④ WSN Defense & Trust Security Policy</h2>
     <div style="font-size:12.5px;line-height:1.9;color:var(--dim)">
-      <div>• <b>Trusted (Trust &gt; 0.75):</b> Full transmission rights granted.</div>
-      <div>• <b>Suspicious (0.50 &ndash; 0.75):</b> Placed on Watch list; rerouting probe packets.</div>
-      <div>• <b>Under Verification (0.35 &ndash; 0.50):</b> Multi-hop neighbor validation triggered.</div>
-      <div>• <b>Malicious (&lt; 0.35):</b> Node instantly isolated from routing topology.</div>
+      <div>• <b>Trusted Node (Trust &gt; 0.75):</b> Authorized to route data toward the Base Station.</div>
+      <div>• <b>Suspicious Node (0.50 &ndash; 0.75):</b> Flagged for Watch; traffic rerouted to backup forwarders.</div>
+      <div>• <b>Under Verification (0.38 &ndash; 0.50):</b> Multi-hop neighbor challenge & verification probes triggered.</div>
+      <div>• <b>Malicious Node (&lt; 0.38):</b> Revoke routing permissions; node immediately isolated from network topology.</div>
     </div>
     <div class="foot">
-      Trained on 80,000 simulated WSN-DS network records. Evaluated on fair hold-out test set.
+      Evaluated on 80,000 records modeled on the <b>WSN-DS</b> benchmark dataset (Almomani et al., 2016).
     </div>
   </div>
 </div>
 
 <script>
-var currentMode = 'cyber'; // 'cyber' or 'sensor'
 var running = true;
 var N = 70;
 var series = [[], [], [], []];
@@ -179,89 +165,27 @@ var activeFault = 'normal';
 var isolatedCount = 0;
 var lastClass = 'NORMAL';
 
-/* ================= ATTACK & FAULT DEFINITIONS ================= */
 var CYBER_ATTACKS = {
-  normal: { name: 'Normal Traffic', desc: 'Expected reliable packet forwarding' },
-  blackhole: { name: 'Blackhole Attack', desc: '100% packet drop of transit traffic' },
-  grayhole: { name: 'Grayhole Attack', desc: 'Selective packet drop (50% loss)' },
-  flooding: { name: 'Flooding Attack', desc: 'Broadcast storm of control packets' },
-  scheduling: { name: 'Scheduling Attack', desc: 'TDMA slot collision & interference' }
+  normal: { name: '🟢 Normal Traffic', desc: 'Standard reliable packet forwarding' },
+  blackhole: { name: '🔴 Blackhole Attack', desc: '100% transit packet drop (DATA_F=0)' },
+  grayhole: { name: '🟠 Grayhole Attack', desc: 'Selective packet drop (30-60% loss)' },
+  flooding: { name: '🟡 Flooding Attack', desc: 'ADV/JOIN/SCH broadcast storm' },
+  scheduling: { name: '🟣 Scheduling Attack', desc: 'TDMA slot collision & interference' }
 };
 
-var SENSOR_FAULTS = {
-  normal: { name: 'Normal', desc: 'Expected diurnal cycle' },
-  spike: { name: 'Temp Spike', desc: '+14°C step on temperature' },
-  drift: { name: 'Temp Drift', desc: '+0.5°C/step linear ramp' },
-  stuck: { name: 'Stuck Light', desc: 'Light sensor frozen' },
-  missing: { name: 'Missing Light', desc: 'Light channel NaN' }
-};
-
-function switchMode(m) {
-  currentMode = m;
-  document.getElementById('tabCyber').className = 'tab-btn' + (m === 'cyber' ? ' active' : '');
-  document.getElementById('tabSensor').className = 'tab-btn' + (m === 'sensor' ? ' active' : '');
-  
-  for(var i=0; i<4; i++) series[i] = [];
-  t = 0;
-  activeFault = 'normal';
-  
-  if (m === 'cyber') {
-    document.getElementById('headerSub').textContent = 'Simulated WSN Environment · Random Forest with Dynamic Trust Evaluation';
-    document.getElementById('leftPanelTitle').textContent = '① WSN Network Packet & Behavior Stream';
-    document.getElementById('rightPanelTitle').textContent = '② TERF Model Inference & Decision Layer';
-    document.getElementById('lab0').textContent = 'Forwarded Packets';
-    document.getElementById('lab1').textContent = 'Dropped Packets';
-    document.getElementById('lab2').textContent = 'Control Broadcasts';
-    document.getElementById('lab3').textContent = 'Composite Trust';
-    document.getElementById('node1Name').textContent = 'Classifier';
-    document.getElementById('node2Name').textContent = 'Direct Trust';
-    document.getElementById('node3Name').textContent = 'Control Trust';
-    document.getElementById('sub1').textContent = 'Accuracy';
-    document.getElementById('sub2').textContent = 'Macro F1';
-    document.getElementById('sub3').textContent = 'Normal FPR';
-    document.getElementById('sub4').textContent = 'Nodes Isolated';
-    document.getElementById('metric1').textContent = '99.6%';
-    document.getElementById('metric2').textContent = '99.5%';
-    document.getElementById('metric3').textContent = '0.47%';
-    renderButtons(CYBER_ATTACKS);
-    renderTableCyber();
-  } else {
-    document.getElementById('headerSub').textContent = 'Dense Autoencoder (4→8→3→8→4) Baseline + Sensor-Health Rules';
-    document.getElementById('leftPanelTitle').textContent = '① Environmental Sensor Channels (Berkeley Style)';
-    document.getElementById('rightPanelTitle').textContent = '② Autoencoder Anomaly Score & State Machine';
-    document.getElementById('lab0').textContent = 'Temperature (°C)';
-    document.getElementById('lab1').textContent = 'Humidity (%)';
-    document.getElementById('lab2').textContent = 'Light (Lux)';
-    document.getElementById('lab3').textContent = 'Voltage (V)';
-    document.getElementById('node1Name').textContent = 'Autoencoder';
-    document.getElementById('node2Name').textContent = 'Stuck Rule';
-    document.getElementById('node3Name').textContent = 'Missingness';
-    document.getElementById('sub1').textContent = 'Spike Rec';
-    document.getElementById('sub2').textContent = 'Drift Rec';
-    document.getElementById('sub3').textContent = 'Stuck Rec';
-    document.getElementById('sub4').textContent = 'Missing Rec';
-    document.getElementById('metric1').textContent = '100%';
-    document.getElementById('metric2').textContent = '100%';
-    document.getElementById('metric3').textContent = '98.4%';
-    renderButtons(SENSOR_FAULTS);
-    renderTableSensor();
-  }
-  addLog('Switched to ' + (m === 'cyber' ? 'Cyberattack Mode (TERF)' : 'Sensor-Health Mode (Autoencoder)'));
-}
-
-function renderButtons(obj) {
+function renderButtons() {
   var box = document.getElementById('simControl');
   box.innerHTML = '';
-  Object.keys(obj).forEach(function(k) {
+  Object.keys(CYBER_ATTACKS).forEach(function(k) {
     var b = document.createElement('button');
-    b.textContent = obj[k].name;
+    b.textContent = CYBER_ATTACKS[k].name;
     b.id = 'btn_' + k;
     if (k === activeFault) b.className = (k === 'normal' ? 'on-good' : 'on-danger');
     b.onclick = function() {
       activeFault = k;
       document.querySelectorAll('#simControl button').forEach(function(btn){ btn.className = ''; });
       b.className = (k === 'normal' ? 'on-good' : 'on-danger');
-      addLog('Triggered: ' + obj[k].name + ' (' + obj[k].desc + ')');
+      addLog('Triggered: ' + CYBER_ATTACKS[k].name + ' (' + CYBER_ATTACKS[k].desc + ')');
     };
     box.appendChild(b);
   });
@@ -275,91 +199,67 @@ function toggleStream() {
   if (running) loop();
 }
 
-/* ================= SIMULATION LOGIC ================= */
 function sampleStep() {
   var sev = parseInt(document.getElementById('mag').value, 10);
-  if (currentMode === 'cyber') {
-    // Cyberattack Network Simulation
-    var data_r = 100 + Math.floor(Math.random() * 60);
-    var data_f, data_d, control, dt, ct, et = 0.65 - (Math.random()*0.05);
-    var pred = 'Normal', conf = 99.5;
-    
-    if (activeFault === 'normal') {
-      data_d = Math.floor(data_r * (0.02 + Math.random() * 0.05));
-      data_f = data_r - data_d;
-      control = 8 + Math.floor(Math.random() * 6);
-      dt = data_f / (data_r + 0.001);
-      ct = 0.92;
-      pred = 'Normal';
-      conf = 99.8;
-    } else if (activeFault === 'blackhole') {
-      data_d = data_r;
-      data_f = 0;
-      control = 10;
-      dt = 0.0;
-      ct = 0.94;
-      pred = 'Blackhole';
-      conf = 100.0;
-    } else if (activeFault === 'grayhole') {
-      var dropRatio = 0.45 + (sev * 0.025);
-      data_d = Math.floor(data_r * dropRatio);
-      data_f = data_r - data_d;
-      control = 10;
-      dt = data_f / (data_r + 0.001);
-      ct = 0.90;
-      pred = 'Grayhole';
-      conf = 98.6;
-    } else if (activeFault === 'flooding') {
-      data_d = Math.floor(data_r * 0.35);
-      data_f = data_r - data_d;
-      control = 80 + (sev * 15);
-      et = Math.max(0.08, 0.5 - (sev * 0.04));
-      dt = 0.65;
-      ct = 0.08;
-      pred = 'Flooding';
-      conf = 100.0;
-    } else if (activeFault === 'scheduling') {
-      data_d = Math.floor(data_r * 0.30);
-      data_f = data_r - data_d;
-      control = 35 + (sev * 4);
-      dt = 0.70;
-      ct = 0.65;
-      pred = 'Scheduling';
-      conf = 99.4;
-    }
-    
-    var composite = Math.min(1.0, Math.max(0.0, 0.50 * dt + 0.30 * ct + 0.20 * et));
-    return {
-      v: [data_f, data_d, control, composite],
-      pred: pred.toUpperCase(),
-      conf: conf,
-      dt: dt,
-      ct: ct,
-      comp: composite
-    };
-  } else {
-    // Sensor-health simulation
-    var day = (t % 24);
-    var temp = 14 + 5 * Math.sin(2 * Math.PI * (day - 6) / 24) + (Math.random() - 0.5);
-    var hum = 45 + 9 * Math.cos(2 * Math.PI * (day - 6) / 24) + (Math.random() - 0.5);
-    var light = (day > 7 && day < 19) ? (400 + 150 * Math.sin(Math.PI * (day - 7) / 12)) : 5;
-    var volt = 2.5 - 0.02 * Math.sin(2 * Math.PI * t / 120);
-    
-    if (activeFault === 'spike') temp += 14.0;
-    if (activeFault === 'drift') temp += Math.min(15, (t % 50) * 0.4);
-    if (activeFault === 'stuck') light = 0.0;
-    if (activeFault === 'missing') light = NaN;
-    
-    return {
-      v: [temp, hum, light, volt],
-      pred: (activeFault === 'normal' ? 'NORMAL' : 'ALERT'),
-      conf: 98.9,
-      dt: 0.9, ct: 0.9, comp: 0.9
-    };
+  var data_r = 100 + Math.floor(Math.random() * 60);
+  var data_f, data_d, control, dt, ct, et = 0.65 - (Math.random()*0.05);
+  var pred = 'NORMAL', conf = 99.8;
+  
+  if (activeFault === 'normal') {
+    data_d = Math.floor(data_r * (0.02 + Math.random() * 0.05));
+    data_f = data_r - data_d;
+    control = 8 + Math.floor(Math.random() * 6);
+    dt = data_f / (data_r + 0.001);
+    ct = 0.92;
+    pred = 'NORMAL';
+    conf = 99.8;
+  } else if (activeFault === 'blackhole') {
+    data_d = data_r;
+    data_f = 0;
+    control = 10;
+    dt = 0.0;
+    ct = 0.94;
+    pred = 'BLACKHOLE';
+    conf = 100.0;
+  } else if (activeFault === 'grayhole') {
+    var dropRatio = 0.42 + (sev * 0.025);
+    data_d = Math.floor(data_r * dropRatio);
+    data_f = data_r - data_d;
+    control = 10;
+    dt = data_f / (data_r + 0.001);
+    ct = 0.90;
+    pred = 'GRAYHOLE';
+    conf = 98.6;
+  } else if (activeFault === 'flooding') {
+    data_d = Math.floor(data_r * 0.35);
+    data_f = data_r - data_d;
+    control = 80 + (sev * 15);
+    et = Math.max(0.08, 0.5 - (sev * 0.04));
+    dt = 0.65;
+    ct = 0.08;
+    pred = 'FLOODING';
+    conf = 100.0;
+  } else if (activeFault === 'scheduling') {
+    data_d = Math.floor(data_r * 0.30);
+    data_f = data_r - data_d;
+    control = 35 + (sev * 4);
+    dt = 0.70;
+    ct = 0.65;
+    pred = 'SCHEDULING';
+    conf = 99.4;
   }
+  
+  var composite = Math.min(1.0, Math.max(0.0, 0.50 * dt + 0.30 * ct + 0.20 * et));
+  return {
+    v: [data_f, data_d, control, composite],
+    pred: pred,
+    conf: conf,
+    dt: dt,
+    ct: ct,
+    comp: composite
+  };
 }
 
-/* ================= RENDER LOOP ================= */
 function loop() {
   if (!running) return;
   var step = sampleStep();
@@ -369,42 +269,39 @@ function loop() {
     if (series[i].length > N) series[i].shift();
   }
   
-  // UI Updates
   var lbl = document.getElementById('stateLabel');
   lbl.textContent = step.pred;
+  var isAttack = step.pred !== 'NORMAL';
+  lbl.style.color = isAttack ? 'var(--alert)' : 'var(--good)';
   
-  if (currentMode === 'cyber') {
-    var isAttack = step.pred !== 'NORMAL';
-    lbl.style.color = isAttack ? 'var(--alert)' : 'var(--good)';
-    document.getElementById('predClass').textContent = step.pred;
-    document.getElementById('predClass').style.color = isAttack ? 'var(--alert)' : 'var(--good)';
-    document.getElementById('predPill').textContent = step.conf.toFixed(1) + '% Conf';
-    document.getElementById('predPill').className = 'pill ' + (isAttack ? 'on-alert' : 'on-good');
-    
-    document.getElementById('dtVal').textContent = step.dt.toFixed(2);
-    document.getElementById('dtFill').style.width = (step.dt * 100) + '%';
-    document.getElementById('dtFill').style.background = step.dt < 0.4 ? 'var(--alert)' : step.dt < 0.7 ? 'var(--warn)' : 'var(--good)';
-    document.getElementById('dtPill').textContent = step.dt < 0.4 ? 'CRITICAL DROP' : step.dt < 0.7 ? 'DEGRADED' : 'RELIABLE';
-    
-    document.getElementById('ctVal').textContent = step.ct.toFixed(2);
-    document.getElementById('ctFill').style.width = (step.ct * 100) + '%';
-    document.getElementById('ctFill').style.background = step.ct < 0.4 ? 'var(--alert)' : 'var(--good)';
-    document.getElementById('ctPill').textContent = step.ct < 0.4 ? 'BROADCAST FLOOD' : 'NORMAL QUOTA';
-    
-    var actEl = document.getElementById('actionStatus');
-    if (step.comp < 0.38) {
-      actEl.textContent = 'MALICIOUS NODE ISOLATED';
-      actEl.style.color = 'var(--alert)';
-      if (lastClass !== step.pred) isolatedCount++;
-    } else if (step.comp < 0.65) {
-      actEl.textContent = 'SUSPICIOUS - VERIFYING';
-      actEl.style.color = 'var(--warn)';
-    } else {
-      actEl.textContent = 'NODE AUTHORIZED';
-      actEl.style.color = 'var(--good)';
-    }
-    document.getElementById('metric4').textContent = isolatedCount;
+  document.getElementById('predClass').textContent = step.pred;
+  document.getElementById('predClass').style.color = isAttack ? 'var(--alert)' : 'var(--good)';
+  document.getElementById('predPill').textContent = step.conf.toFixed(1) + '% Conf';
+  document.getElementById('predPill').className = 'pill ' + (isAttack ? 'on-alert' : 'on-good');
+  
+  document.getElementById('dtVal').textContent = step.dt.toFixed(2);
+  document.getElementById('dtFill').style.width = (step.dt * 100) + '%';
+  document.getElementById('dtFill').style.background = step.dt < 0.4 ? 'var(--alert)' : step.dt < 0.7 ? 'var(--warn)' : 'var(--good)';
+  document.getElementById('dtPill').textContent = step.dt < 0.4 ? 'CRITICAL DROP' : step.dt < 0.7 ? 'DEGRADED' : 'RELIABLE';
+  
+  document.getElementById('ctVal').textContent = step.ct.toFixed(2);
+  document.getElementById('ctFill').style.width = (step.ct * 100) + '%';
+  document.getElementById('ctFill').style.background = step.ct < 0.4 ? 'var(--alert)' : 'var(--good)';
+  document.getElementById('ctPill').textContent = step.ct < 0.4 ? 'BROADCAST FLOOD' : 'NORMAL QUOTA';
+  
+  var actEl = document.getElementById('actionStatus');
+  if (step.comp < 0.38) {
+    actEl.textContent = 'MALICIOUS NODE ISOLATED';
+    actEl.style.color = 'var(--alert)';
+    if (lastClass !== step.pred) isolatedCount++;
+  } else if (step.comp < 0.65) {
+    actEl.textContent = 'SUSPICIOUS - REROUTING';
+    actEl.style.color = 'var(--warn)';
+  } else {
+    actEl.textContent = 'NODE AUTHORIZED';
+    actEl.style.color = 'var(--good)';
   }
+  document.getElementById('metric4').textContent = isolatedCount;
   
   if (lastClass !== step.pred) {
     addLog('Classification: ' + lastClass + ' → ' + step.pred);
@@ -460,8 +357,9 @@ function addLog(msg) {
   while (lg.children.length > 6) lg.lastChild.remove();
 }
 
-/* ================= PERFORMANCE TABLES ================= */
 var CYBER_PERF = [
+  { m: 'Logistic Regression (Baseline)', f: 'Raw Network (15 features)', p: '99.28%', r: '99.27%', f1: '99.28%', fpr: '0.37%' },
+  { m: 'Decision Tree (Baseline)', f: 'Raw Network (15 features)', p: '99.10%', r: '99.49%', f1: '99.29%', fpr: '0.50%' },
   { m: 'Standard Random Forest', f: 'Raw Network (15 features)', p: '99.12%', r: '99.42%', f1: '99.27%', fpr: '0.48%' },
   { m: 'Trust-Enhanced RF (TERF)', f: 'Network + Trust Scores', p: '99.19%', r: '99.78%', f1: '99.48%', fpr: '0.47%' },
   { m: '└─ Blackhole Detection', f: '100% Drop Pattern', p: '100.0%', r: '100.0%', f1: '100.0%', fpr: '0.00%' },
@@ -470,7 +368,7 @@ var CYBER_PERF = [
   { m: '└─ Scheduling (TDMA)', f: 'Slot Desync Pattern', p: '100.0%', r: '100.0%', f1: '100.0%', fpr: '0.00%' }
 ];
 
-function renderTableCyber() {
+function renderTable() {
   var b = document.getElementById('perfBody');
   b.innerHTML = '';
   CYBER_PERF.forEach(function(row) {
@@ -480,25 +378,8 @@ function renderTableCyber() {
   });
 }
 
-function renderTableSensor() {
-  var b = document.getElementById('perfBody');
-  b.innerHTML = '';
-  var rows = [
-    { m: 'Spike Fault', f: 'Temp +14°C', p: '100.0%', r: '100.0%', f1: '100.0%', fpr: '0.015%' },
-    { m: 'Drift Fault', f: 'Temp Ramp', p: '100.0%', r: '100.0%', f1: '100.0%', fpr: '0.015%' },
-    { m: 'Stuck-at Fault', f: 'Light Frozen', p: '100.0%', r: '98.4%', f1: '99.2%', fpr: '0.000%' },
-    { m: 'Missing Fault', f: 'Light NaN', p: '100.0%', r: '100.0%', f1: '100.0%', fpr: '0.000%' }
-  ];
-  rows.forEach(function(row) {
-    var tr = document.createElement('tr');
-    tr.innerHTML = '<td><b>' + row.m + '</b></td><td>' + row.f + '</td><td class="good">' + row.p + '</td><td class="good">' + row.r + '</td><td class="good">' + row.f1 + '</td><td class="bad">' + row.fpr + '</td>';
-    b.appendChild(tr);
-  });
-}
-
-// Initial setup
-renderButtons(CYBER_ATTACKS);
-renderTableCyber();
+renderButtons();
+renderTable();
 loop();
 </script>
 </body>

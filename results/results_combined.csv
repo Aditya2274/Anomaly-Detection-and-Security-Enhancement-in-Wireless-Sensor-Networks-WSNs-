@@ -1,5 +1,0 @@
-fault,detected,total,recall,precision,f1
-spike,500,500,1.0,1.0,1.0
-drift,500,500,1.0,1.0,1.0
-stuck-at,500,500,1.0,1.0,1.0
-missing,500,500,1.0,1.0,1.0
