@@ -90,16 +90,23 @@ Together, `Direct_Trust`, `Composite_Trust`, and `Control_Trust` account for **4
 
 1. **Almomani et al. (2016) — The WSN-DS Benchmark Foundation:**
    > Almomani, I., Al-Kasasbeh, B., & Al-Akhras, M. (2016). *“WSN-DS: A Dataset for Intrusion Detection Systems in Wireless Sensor Networks.”* Journal of Sensors, Volume 2016, Article ID 4731953.
+   * **Paper DOI Link:** [https://doi.org/10.1155/2016/4731953](https://doi.org/10.1155/2016/4731953)
+   * **Official Publisher Link (Hindawi / Wiley):** [https://www.hindawi.com/journals/js/2016/4731953/](https://www.hindawi.com/journals/js/2016/4731953/)
+   * **Official Kaggle Dataset Link:** [https://www.kaggle.com/datasets/bassamkasasbeh1/wsnds](https://www.kaggle.com/datasets/bassamkasasbeh1/wsnds)
    * **Key Finding in Original Paper:** Evaluating baseline neural networks and decision trees, the authors showed Blackhole, Flooding, and Scheduling reached 99%+, but Grayhole detection fell to **75.3%–83.2%**.
    * **Direct Quote from Paper:** *"Grayhole is the most difficult attack to detect because its selective packet dropping pattern closely resembles legitimate network traffic under channel congestion."*
 
 2. **Anwer et al. (2025) — TEAD Framework:**
    > Anwer, R. W., et al. (2025). *“TEAD: trust-enhanced anomaly detection framework for intrusion detection in IoT-enabled wireless sensor networks (WSNs).”* Wireless Networks (Springer), 31, 4179–4197.
-   * Proves that trust evaluation is the missing link needed to disambiguate intentional selective drops from transient wireless channel attenuation.
+   * **Paper DOI Link:** [https://doi.org/10.1007/s11276-025-03987-3](https://doi.org/10.1007/s11276-025-03987-3)
+   * **Official Publisher Link (Springer Nature):** [https://link.springer.com/article/10.1007/s11276-025-03987-3](https://link.springer.com/article/10.1007/s11276-025-03987-3)
+   * **Key Contribution:** Proves that trust evaluation is the missing link needed to disambiguate intentional selective drops from transient wireless channel attenuation in IoT/WSN networks.
 
-3. **Govindan & Mohapatra (2012) — Trust Foundations:**
+3. **Govindan & Mohapatra (2012) — Trust Foundations in WSNs:**
    > Govindan, K., & Mohapatra, P. (2012). *“Trust Management in Wireless Sensor Networks: A Survey.”* IEEE Communications Surveys & Tutorials, 14(2), 238–254.
-   * Mathematically proves that an IDS using only volume counters cannot resolve selective forwarding ambiguity without maintaining continuous node behavioral reputation.
+   * **Paper DOI Link:** [https://doi.org/10.1109/SURV.2011.031611.00084](https://doi.org/10.1109/SURV.2011.031611.00084)
+   * **Official Publisher Link (IEEE Xplore):** [https://ieeexplore.ieee.org/document/5738221](https://ieeexplore.ieee.org/document/5738221)
+   * **Key Contribution:** Mathematically proves that an IDS using only volume counters cannot resolve selective forwarding ambiguity without maintaining continuous node behavioral reputation and trust tracking over time.
 
 ---
 
