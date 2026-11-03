@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""TERF frontend server — serves the single-file dashboard. No external deps.
-Run: python3 server.py   ->   open http://localhost:8000
-Synthetic demo only; not real findings."""
+"""TERF Security Operations Console server — serves the live WSN intrusion detection dashboard. Zero external deps.
+Run: python3 frontend/server.py 8000   ->   open http://localhost:8000"""
 import os, sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import urllib.parse
