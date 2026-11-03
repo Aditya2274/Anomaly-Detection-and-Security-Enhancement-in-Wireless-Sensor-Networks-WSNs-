@@ -1,0 +1,21 @@
+Model,Attack Class,Support,Precision,Recall,F1-Score
+Logistic Regression,Blackhole,1280,100.0,100.0,100.0
+Logistic Regression,Flooding,1280,100.0,100.0,100.0
+Logistic Regression,Grayhole,1280,96.79,96.72,96.76
+Logistic Regression,Normal,11200,99.63,99.63,99.63
+Logistic Regression,Scheduling,960,100.0,100.0,100.0
+Decision Tree,Blackhole,1280,100.0,100.0,100.0
+Decision Tree,Flooding,1280,100.0,100.0,100.0
+Decision Tree,Grayhole,1280,95.73,97.97,96.83
+Decision Tree,Normal,11200,99.77,99.5,99.63
+Decision Tree,Scheduling,960,100.0,100.0,100.0
+Standard Random Forest,Blackhole,1280,100.0,100.0,100.0
+Standard Random Forest,Flooding,1280,100.0,100.0,100.0
+Standard Random Forest,Grayhole,1280,95.86,97.58,96.71
+Standard Random Forest,Normal,11200,99.72,99.52,99.62
+Standard Random Forest,Scheduling,960,100.0,100.0,100.0
+Trust-Enhanced Random Forest (TERF),Blackhole,1280,100.0,100.0,100.0
+Trust-Enhanced Random Forest (TERF),Flooding,1280,100.0,100.0,100.0
+Trust-Enhanced Random Forest (TERF),Grayhole,1280,96.0,99.38,97.66
+Trust-Enhanced Random Forest (TERF),Normal,11200,99.93,99.53,99.73
+Trust-Enhanced Random Forest (TERF),Scheduling,960,100.0,100.0,100.0
