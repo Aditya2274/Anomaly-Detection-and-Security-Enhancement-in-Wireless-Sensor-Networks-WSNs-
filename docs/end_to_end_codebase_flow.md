@@ -140,12 +140,26 @@ This is a lightweight local HTTP server built with Python’s standard library:
 
 The dashboard is a **real-time Security Operations Center** running inside the browser. Here is how the visual components connect to the underlying ML pipeline:
 
-### 1. Interactive Attack Injection Buttons (Lines 168–192)
+### 1. Interactive Attack Injection Buttons (Lines 176–192)
 At the bottom of Panel ① are 5 buttons: **Normal Traffic**, **Blackhole Attack**, **Grayhole Attack**, **Flooding Attack**, and **Scheduling Attack**.
 * When a user clicks a button, `b.onclick` sets `activeFault = 'blackhole'`, etc.
 * This changes the active attack simulation state in memory.
 
-### 2. The Simulation & Inference Loop (Lines 202–314)
+### 2. Attack Severity Slider & Dynamic Stress Scaling (Lines 202–252)
+The dashboard features an **Attack Severity** slider (`#mag`, range 1 to 10, default 5) that dynamically scales the intensity of active cyberattacks:
+* **Grayhole Attack (Selective Packet Dropping):**
+  Modulates packet drop ratio: $\text{Drop Ratio} = 0.42 + (\text{Severity} \times 0.025)$.
+  * Level 1 (Stealth): Drops ~44.5% of packets, mimicking marginal wireless loss.
+  * Level 10 (Aggressive): Drops ~67.0% of packets, driving rapid Direct Trust collapse.
+* **Flooding Attack (Broadcast Storm & Battery Drain):**
+  Scales broadcast control packets: $\text{Control Packets} = 80 + (\text{Severity} \times 15)$ (from 95 to 230 packets/interval).
+  Also accelerates energy depletion trust: $E_T = \max(0.08, 0.50 - \text{Severity} \times 0.04)$, simulating battery exhaustion from broadcast flooding.
+* **Scheduling Attack (TDMA Desynchronization):**
+  Scales slot contention packets: $\text{Control} = 35 + (\text{Severity} \times 4)$.
+* **Blackhole Attack:**
+  100% transit packet drop by definition ($\text{DATA\_F} = 0$, Direct Trust $= 0.00$).
+
+### 3. The Simulation & Inference Loop (Lines 263–314)
 The function `loop()` runs every **160 milliseconds** via `setTimeout(loop, 160)`:
 1. It calls `sampleStep()`, which generates the current tick of packet numbers based on `activeFault`:
    * If `activeFault === 'blackhole'`: `DATA_D = DATA_R`, `DATA_F = 0`, `Direct_Trust = 0.0`.
@@ -153,14 +167,14 @@ The function `loop()` runs every **160 milliseconds** via `setTimeout(loop, 160)
    * If `activeFault === 'flooding'`: `Control = 80 - 150`, `Control_Trust = 0.08`.
 2. It pushes these values into circular FIFO history buffers (`series[0..3].push()`, `series[0..3].shift()`).
 
-### 3. Real-Time Waveform Rendering (Lines 316–350)
+### 4. Real-Time Waveform Rendering (Lines 316–350)
 The function `drawCanvas(i)` redraws the 4 HTML5 `<canvas>` elements on every frame:
 * **Canvas 0 (Cyan):** Forwarded Packets (`DATA_F`)
 * **Canvas 1 (Coral Red):** Dropped Packets (`DATA_D`)
 * **Canvas 2 (Amber Yellow):** Control Broadcasts (`ADV + JOIN + SCH`)
 * **Canvas 3 (Emerald Green):** Dynamic Composite Trust Score
 
-### 4. Updating the Model State & Action Layer (Lines 272–304)
+### 5. Updating the Model State & Action Layer (Lines 272–304)
 On every tick, the UI updates:
 * **The Big State Label (`stateLabel`):** Shows the current predicted class (`NORMAL` in green, `BLACKHOLE` in red, etc.).
 * **Classifier Pill (`predPill`):** Displays the model's prediction confidence (e.g., `99.8% Conf`).
@@ -170,7 +184,7 @@ On every tick, the UI updates:
   * If `Composite_Trust` is $0.50–0.75$: `SUSPICIOUS - REROUTING` (Yellow).
   * If `Composite_Trust < 0.38`: **`MALICIOUS NODE ISOLATED`** (Red), and the *Nodes Isolated* counter increments.
 
-### 5. The Embedded Benchmark Table (Lines 360–379)
+### 6. The Embedded Benchmark Table (Lines 360–379)
 In Panel ③, the function `renderTable()` dynamically populates the HTML table using the **exact benchmark numbers measured by our training pipeline**:
 * Standard Random Forest: Grayhole Recall = $97.58\%$
 * Trust-Enhanced Random Forest (TERF): Grayhole Recall = $99.38\%$

@@ -159,6 +159,7 @@ python3 frontend/server.py 8000
 ```
 Open **[http://localhost:8000](http://localhost:8000)** in your browser:
 * **Interactive Attack Injection:** Click **Normal**, **Blackhole**, **Grayhole**, **Flooding**, or **Scheduling** buttons.
+* **Attack Severity Slider (Levels 1–10):** Dynamically scales attack aggressiveness (e.g., Grayhole packet drop from 44.5% to 67%, Flooding broadcast storms from 95 to 230 packets/interval, and battery depletion rates).
 * **Live Stream Waveforms:** Monitor Forwarded Packets, Dropped Packets, Control Bursts, and Composite Trust in real time.
 * **Dynamic Trust Gauges:** Direct Trust, Control Trust, and Composite Trust live meters.
 * **Active Quarantine Defense:** Automatic node classification and topology isolation (**Authorized** $\rightarrow$ **Suspicious** $\rightarrow$ **Isolated Malicious Node**).
