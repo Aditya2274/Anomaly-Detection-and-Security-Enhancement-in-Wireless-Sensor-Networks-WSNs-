@@ -157,7 +157,7 @@ The dashboard features an **Attack Severity** slider (`#mag`, range 1 to 10, def
 * **Scheduling Attack (TDMA Desynchronization):**
   Scales slot contention packets: $\text{Control} = 35 + (\text{Severity} \times 4)$.
 * **Blackhole Attack:**
-  100% transit packet drop by definition ($\text{DATA\_F} = 0$, Direct Trust $= 0.00$).
+  100% transit packet drop by definition ($\text{DATA}_F = 0$, Direct Trust $= 0.00$).
 
 ### 3. The Simulation & Inference Loop (Lines 263–314)
 The function `loop()` runs every **160 milliseconds** via `setTimeout(loop, 160)`:

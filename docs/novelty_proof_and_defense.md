@@ -119,7 +119,7 @@ flowchart LR
    Wireless is a broadcast medium. When Node A sends a packet to Node B to forward toward the Base Station, Node A’s radio remains in promiscuous receive mode for a designated window to verify whether Node B actually re-transmits the packet over the air.
 2. **Dynamic Trust Quantification:**
    * **Direct Forwarding Trust:**
-     $$\text{Direct Trust} = \frac{\text{DATA\_F}}{\text{DATA\_R} + \epsilon}$$
+     $$\text{Direct Trust} = \frac{\text{DATA}_F}{\text{DATA}_R + \epsilon}$$
      If Node B receives 100 packets but forwards only 10 (Grayhole/Blackhole), Direct Trust collapses from `0.95` down to `0.10`.
    * **Control Broadcast Trust:**
      $$\text{Control Trust} = 1.0 - \left(\frac{\text{ADV + JOIN + SCH}}{\text{Total Packets}} \times 1.6\right)$$
@@ -236,7 +236,7 @@ Together, `Direct_Trust`, `Composite_Trust`, and `Control_Trust` account for **4
 * **The mathematical theorem it proved:**  
   In lossy wireless networks (where physical obstacles and collisions naturally drop packets), an Intrusion Detection System that relies **only on instantaneous packet volume counters mathematically cannot distinguish between innocent channel errors and selective packet drops** without maintaining continuous behavioral trust ratios.
 * **Theoretical Justification:**  
-  This theorem establishes that raw packet counters alone lack the dimensionality needed to separate physical channel collisions from selective forwarding attacks. Govindan & Mohapatra proved that maintaining dynamic behavioral trust ratios (such as $\text{DATA\_F} / \text{DATA\_R}$) over continuous observation windows is theoretically required to resolve this ambiguity, justifying TERF's trust engineering design.
+  This theorem establishes that raw packet counters alone lack the dimensionality needed to separate physical channel collisions from selective forwarding attacks. Govindan & Mohapatra proved that maintaining dynamic behavioral trust ratios (such as $\text{DATA}_F / \text{DATA}_R$) over continuous observation windows is theoretically required to resolve this ambiguity, justifying TERF's trust engineering design.
 
 ---
 
