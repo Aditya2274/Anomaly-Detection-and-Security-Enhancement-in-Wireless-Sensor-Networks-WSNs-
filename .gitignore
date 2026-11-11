@@ -28,3 +28,6 @@ htmlcov/
 .DS_Store
 Thumbs.db
 .~lock.*
+
+# Internal tracking & roadmap
+follow-up-moves.md

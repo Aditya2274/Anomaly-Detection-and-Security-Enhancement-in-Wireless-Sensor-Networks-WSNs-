@@ -77,6 +77,54 @@ Because sensor networks are deployed outdoors in unattended, physically accessib
 3. **Rogue Node / Sybil Cloning:**
    * Using cryptographic keys extracted from one compromised node, an attacker flashes the valid identity onto multiple unauthorized transceivers that join the network topology as legitimate members.
 
+#### Domain Clarification: Why WSN Behavioral Detection Does Not Shift to Traditional IT / Endpoint Security
+
+A critical domain distinction in our research is clarifying what "insider threat" and "behavioral detection" actually mean in low-power wireless sensor networks (WSNs) versus traditional enterprise IT. 
+
+Adopting this model **does not shift the problem to traditional IT/endpoint security** (like running EDR, OS hooks, or Sysmon agents), because the operational constraints and detection mechanisms in WSNs are fundamentally different.
+
+Here is why the insider threat model is crucial for motes (CC2650, MicaZ) and how behavioral trust works without traditional endpoint tooling:
+
+##### 1. What "Insider Threat" Means in IoT/WSNs
+* In traditional IT, an "insider" is typically a rogue employee or an attacker who stole Active Directory credentials.
+* In WSNs, an insider is a **physically captured or remotely exploited sensor node**:
+  * **Physical Capture:** MicaZ and CC2650 nodes deployed in open/unattended fields lack hardware HSMs or tamper-resistant secure enclosures. An adversary can pick up a node, extract symmetric AES-128 keys via JTAG/bus snooping, and reprogram it.
+  * **Firmware Exploits:** A buffer overflow in a lightweight network stack (e.g., Contiki-NG, TinyOS, FreeRTOS) can give an attacker control of the node over the air.
+* Once compromised, this node holds valid cryptographic keys and passes all MAC-layer Message Integrity Code (MIC) and identity checks.
+* Cryptographic authentication only answers: *"Is this packet from a legitimate member of the network?"*
+* It cannot answer: *"Is this node acting in good faith according to the protocol rules?"*
+
+##### 2. Why It Doesn't Shift to Traditional Endpoint Security
+In traditional IT, behavioral detection relies on **endpoint telemetry** (HIDS/EDR running on the machine, inspecting process memory, kernel system calls, and file I/O).
+
+On motes like **MicaZ** (8-bit ATmega128L, **4 KB RAM**) or **CC2650** (ARM Cortex-M3, **20 KB RAM**):
+1. **Zero capacity for host monitoring:** There is simply no memory or CPU budget to run internal behavioral auditing or process monitors.
+2. **The Byzantine reporter problem:** If the node's microcontroller is compromised, any self-reported telemetry is untrustworthy.
+
+Instead of internal endpoint monitoring, WSN behavioral detection relies on **Cooperative, External Observation** via the shared wireless medium.
+
+##### 3. How Behavioral Detection Actually Works in WSNs
+Rather than monitoring the inside of the node, neighboring nodes monitor its **external radio behavior**:
+
+| Detection Mechanism | How It Works on Motes |
+| :--- | :--- |
+| **Watchdog / Promiscuous Overhearing** | Node $A$ sends a packet to Node $B$ (intended next-hop). Because wireless is a broadcast medium, Node $A$ listens to confirm whether $B$ forwards the packet to Node $C$ within a short time window. |
+| **Lightweight Trust & Reputation Metrics** | Each neighbor maintains a tiny counter array in RAM (e.g., packets forwarded vs. packets dropped, packet delivery ratio, delay). |
+| **Protocol Rule Compliance** | Detects violations of protocol state machines (e.g., in RPL routing, does a neighbor suddenly broadcast an illegitimate `Rank = 1` claiming to be the sink?). |
+
+This requires no heavy endpoint agents, only standard radio operation and a few bytes of state per neighbor in the routing table.
+
+##### 4. Attacks Only an Insider Threat Model Can Catch in IoT
+Without behavioral trust, an authenticated captured node can cripple the network without breaking a single cryptographic primitive:
+1. **Selective Forwarding / Grayhole Attacks:** The node forwards routing control packets (so it looks healthy in the topology) but silently drops sensitive sensor telemetry.
+2. **Denial-of-Sleep / Energy Depletion:** The node continuously transmits non-standard preamble strobes or bogus requests, keeping neighbor nodes' radios awake and draining battery reserves in days instead of years.
+3. **RPL Rank / Sinkhole Attacks:** The compromised node falsely advertises an optimal path to the 6LBR (Border Router), attracting transit traffic from half the network and then discarding it.
+
+##### 5. Architectural Summary
+* **It does not shift to endpoint security:** We are not monitoring internal OS state or process execution on the mote.
+* **It is neighborhood-centric:** We are monitoring distributed network interactions (packet forwarding compliance, duty-cycle discipline, routing consistency) using promiscuous listening and lightweight reputation counters.
+* **Why it is necessary:** Because in microcontrollers without tamper-proof silicon, cryptographic keys are easily extracted. Behavioral trust is the only safety net when cryptographic trust is breached.
+
 ---
 
 ### 1.5 Theoretical Limitation of Cryptographic Defenses
